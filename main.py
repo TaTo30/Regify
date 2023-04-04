@@ -1,18 +1,24 @@
 import base64
 import regedit
+import sys
+import logging
 
-from httpserver import app
+from http_server import app
+
+app.logger.disabled = True
+
+logging.basicConfig(
+    level = logging.INFO,
+    format = "%(asctime)s %(levelname)s %(module)s %(message)s",
+    handlers= [
+        # logging.FileHandler("app.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 if __name__ == "__main__":
+    regedit.bind_menu()
     app.run()
-    # regedit.remove_command("c3")
-    # with open("favicon.png", "rb") as icon:
-    #     iconb64 = base64.encodebytes(icon.read())
-    #     regedit.add_command(
-    #         keyname="c3", 
-    #         command="C:\\Users\\Aldo_\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
-    #         mui_verb="Testeando icono",
-    #         icon="C:\\Users\\Aldo_\\Documents\\Dev\\Regify\\favicon.ico")
     
-   
-    
+
+

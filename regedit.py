@@ -48,6 +48,28 @@ def _unbind_background_directory():
     with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, DIRECTORY_BACKGROUND_SHELL) as d_bg_shell:
         _unbind_context(d_bg_shell)
 
+def get_commands():
+    with winreg.OpenKey(_app_main_menu(), "shell") as menu_shell:
+        try: 
+            index = 0
+            while True:
+                cmd_keystr = winreg.EnumKey(menu_shell, index)
+                with winreg.OpenKey(menu_shell, cmd_keystr) as cmd:
+                    try: 
+                        icon = winreg.QueryValueEx(cmd, "Icon")[0]
+                    except:
+                        icon = None
+                         
+                    yield {
+                        "key": cmd_keystr,
+                        "command": winreg.QueryValue(cmd, "command"),
+                        "MUIVerb": winreg.QueryValueEx(cmd, "MUIVerb")[0],
+                        "Icon": icon
+                    }
+                index += 1
+        except: 
+            return
+
 def bind_menu():
     _bind_all_files()
     _bind_background_directory()

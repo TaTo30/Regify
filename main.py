@@ -1,11 +1,8 @@
-import base64
 import regedit
 import sys
 import logging
 
 from http_server import app
-
-app.logger.disabled = True
 
 logging.basicConfig(
     level = logging.INFO,
@@ -20,5 +17,3 @@ if __name__ == "__main__":
     regedit.bind_menu()
     app.run()
     
-
-

@@ -5,17 +5,29 @@ import uuid
 import io
 import logging
 import os
+import sys
+import json
 
 from PIL import Image, UnidentifiedImageError
 
 logger = logging.getLogger(__name__)
 
 class Command():
-    def __init__(self, command = None, mui_verb = None, icon = None, keyname = None) -> None:
+    def __init__(self, command = None, command_id = None,
+        mui_verb = None, icon = None, 
+        keyname = None, multiple = False, item_separator = " ") -> None:
+
         self.keyname = keyname or str(uuid.uuid4()).split("-")[0]
-        self.command = command
+        self.multiple = multiple
+        self.item_separator = item_separator
         self.mui_verb = mui_verb
+        self.command = command
+        self.command_id = command_id or str(uuid.uuid4()).split("-")[0]
         self.icon = self.icon_path(icon)
+
+    @property
+    def proxy_command(self):
+        return f"\"{sys.executable}\" \"-e\" \"{self.command_id}\" \"-i\" \"%1\""
 
     def icon_path(self, icon):
         if not icon:
@@ -39,8 +51,12 @@ class Command():
         return {
             "keyname": self.keyname,
             "command": self.command,
+            "command_id": self.command_id,
             "mui_verb": self.mui_verb,
-            "icon": str(self.icon) if self.icon else self.icon
+            "icon": str(self.icon) if self.icon else self.icon,
+            "multiple": self.multiple,
+            "proxy_command": self.proxy_command if self.multiple else "",
+            "item_separator": self.item_separator
         }
     
     def remove(self):
@@ -59,8 +75,21 @@ class Command():
 
     def save(self):
         try:
-            regedit.add_command(self.keyname, self.command, self.mui_verb, self.icon)
+            if self.multiple:
+                with open(config.get_settings_path(), 'r+t') as sett:
+                    settings = json.loads(sett.read())
+                    settings["proxied_commands"][self.command_id] = {
+                        "command": self.command,
+                        "item_separator": self.item_separator
+                    }
+                    sett.seek(0)
+                    sett.truncate()
+                    sett.write(json.dumps(settings, indent=2))
+                regedit.add_command(self.keyname, self.proxy_command, self.mui_verb, self.icon, self.command_id)
+            else:
+                regedit.add_command(self.keyname, self.command, self.mui_verb, self.icon)
         except Exception as e:
+            logger.error(e)
             return str(e)
 
     def __str__(self) -> str:
@@ -70,5 +99,21 @@ class Command():
 def commands():
     commands = []
     for cmd in regedit.get_commands():
-        commands.append(Command(cmd['command'], cmd['MUIVerb'], cmd['Icon'], cmd['key']))
+        command_id = None
+        multiple = False
+        user_command = cmd['command']
+        item_separator = " "
+        if cmd['Proxied']:
+            command_id = cmd['Proxied']
+            multiple = True
+            with open(config.get_settings_path(), 'rt') as sett:
+                settings = json.loads(sett.read())
+                user_command = settings['proxied_commands'][command_id]['command']
+                item_separator = settings['proxied_commands'][command_id]['item_separator']
+        
+        command = Command(command=user_command, 
+            mui_verb=cmd['MUIVerb'], icon=cmd['Icon'], 
+            keyname=cmd['key'], multiple=multiple, command_id=command_id,
+            item_separator=item_separator)
+        commands.append(command)
     return commands

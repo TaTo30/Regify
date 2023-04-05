@@ -21,24 +21,14 @@ def get_icons_path():
     except Exception as e:
         return False
 
-def get_settings():
+def get_settings_path():
     path = Path.joinpath(HOME_PATH, SETTINGS_FILE)
     try: 
-        with open(path, 'rb') as setting_file:
-            settings = json.loads(setting_file.read())
-            if not settings:
-                return False
-            return settings
+        if not Path.exists(path):
+            with open(path, 'wt') as w_setting_file:
+                w_setting_file.write(json.dumps({'proxied_commands': {}}, indent=2))
+        return path
     except Exception as e:
-        # Create an empty settings.json
-        with open(path, 'wt') as w_setting_file:
-            w_setting_file.write(json.dumps({'commands': {}}, indent=2))
         return False
-    
-def set_settings(settings):
-    path = Path.joinpath(HOME_PATH, SETTINGS_FILE)
-    with open(path, 'wt') as settings_file:
-        settings_file.write(json.dumps(settings, indent=2))
-
 
 _check_app_directory()

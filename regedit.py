@@ -64,6 +64,7 @@ def get_commands():
                         "key": cmd_keystr,
                         "command": winreg.QueryValue(cmd, "command"),
                         "MUIVerb": winreg.QueryValueEx(cmd, "MUIVerb")[0],
+                        "Proxied": winreg.QueryValueEx(cmd, "Proxied")[0],
                         "Icon": icon
                     }
                 index += 1
@@ -80,10 +81,11 @@ def unbind_menu():
     _unbind_background_directory()
     _unbind_directory()
 
-def add_command(keyname, command, mui_verb, icon):
+def add_command(keyname, command, mui_verb, icon, proxy = ""):
     with winreg.CreateKey(_app_main_menu(), f"shell\{keyname}") as new_command:
         winreg.SetValue(new_command, "command", winreg.REG_SZ, command)
         winreg.SetValueEx(new_command, "MUIVerb", 0, winreg.REG_SZ, mui_verb)
+        winreg.SetValueEx(new_command, "Proxied", 0, winreg.REG_SZ, proxy)
         winreg.SetValueEx(new_command, "Icon", 0, winreg.REG_SZ, icon)
 
 def remove_command(keyname):

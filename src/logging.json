@@ -1,5 +1,6 @@
 {
     "version": 1,
+    "disable_existing_loggers": false,
     "formatters": {
       "baseFormatter": {
         "format": "%(asctime)s %(levelname)s %(module)s %(message)s"
@@ -8,13 +9,13 @@
     "handlers": {
       "consoleHandler": {
         "class": "logging.StreamHandler",
-        "level": "DEBUG",
+        "level": "INFO",
         "formatter": "baseFormatter",
         "stream": "ext://sys.stdout"
       },
       "fileErrorHandler": {
         "class": "logging.FileHandler",
-        "level": "ERROR",
+        "level": "WARNING",
         "formatter": "baseFormatter",
         "filename": "regify.error.log"
       },
@@ -33,5 +34,5 @@
         "fileInfoHandler"
       ]
     }
-  }
+}
   

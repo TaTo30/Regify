@@ -5,15 +5,12 @@ import json
 import logging
 import subprocess
 
-logger = logging.getLogger(__name__)
-
 def run_command(command):
     try:
-        process = subprocess.run(command)
+        subprocess.run(command)
     except Exception as e:
-        logger.warning(e)
+        pass
     
-
 def execute(command_id, item_path):
     file_lock = os.path.join(config.HOME_PATH, f"{command_id}.lock")
     file_data = os.path.join(config.HOME_PATH, f"{command_id}.data")
@@ -39,7 +36,6 @@ def execute(command_id, item_path):
 
             file_list = proxied_command['item_separator'].join(item_paths)
             command_to_execute = proxied_command['command'].replace("%FILES", file_list)
-            logger.info(f"Command to execute {command_to_execute}")
             run_command(command_to_execute)
 
         os.unlink(file_data)

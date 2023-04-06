@@ -34,7 +34,7 @@ class Command():
 
     def icon_path(self, icon):
         if not icon:
-            return None
+            return False
         try:
             if os.path.isabs(icon):
                 return icon
@@ -45,10 +45,10 @@ class Command():
                 image.save(icon_path, 'ICO')
                 return icon_path
         except UnidentifiedImageError as ie:
-            logger.warning(ie)
-            return None
+            logger.error(ie)
+            return False
         except:
-            return None
+            return False
 
     def json(self):
         return {
@@ -56,7 +56,7 @@ class Command():
             "command": self.command,
             "command_id": self.command_id,
             "mui_verb": self.mui_verb,
-            "icon": str(self.icon) if self.icon else self.icon,
+            "icon":self.icon,
             "multiple": self.multiple,
             "proxy_command": self.proxy_command if self.multiple else "",
             "item_separator": self.item_separator
@@ -74,7 +74,7 @@ class Command():
                 os.remove(icon_path)
                 logger.info("Asociated icon removed")
         except Exception as e:
-            logger.warning(e)
+            logger.exception(e)
 
     def save(self):
         try:
@@ -92,8 +92,7 @@ class Command():
             else:
                 regedit.add_command(self.keyname, self.command, self.mui_verb, self.icon)
         except Exception as e:
-            logger.error(e)
-            return str(e)
+            logger.exception(e)
 
     def __str__(self) -> str:
         return f"[{self.keyname}] {self.mui_verb} = {self.command} (icon = {self.icon})"

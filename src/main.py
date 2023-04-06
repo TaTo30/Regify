@@ -15,6 +15,8 @@ def config_main_logger():
     try: 
         with open(os.path.join(sys.path[0], "logging.json"), "rt") as lf:
             logging.config.dictConfig(json.loads(lf.read()))
+        logger = logging.getLogger(__name__)
+        logger.info("Starting application")
     except:
         print("logger couldn't be configured")
 

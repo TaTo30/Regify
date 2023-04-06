@@ -1,0 +1,37 @@
+{
+    "version": 1,
+    "formatters": {
+      "baseFormatter": {
+        "format": "%(asctime)s %(levelname)s %(module)s %(message)s"
+      }
+    },
+    "handlers": {
+      "consoleHandler": {
+        "class": "logging.StreamHandler",
+        "level": "DEBUG",
+        "formatter": "baseFormatter",
+        "stream": "ext://sys.stdout"
+      },
+      "fileErrorHandler": {
+        "class": "logging.FileHandler",
+        "level": "ERROR",
+        "formatter": "baseFormatter",
+        "filename": "regify.error.log"
+      },
+      "fileInfoHandler": {
+        "class": "logging.FileHandler",
+        "level": "INFO",
+        "formatter": "baseFormatter",
+        "filename": "regify.log"
+      }
+    },
+    "root": {
+      "level": "DEBUG",
+      "handlers": [
+        "consoleHandler",
+        "fileErrorHandler",
+        "fileInfoHandler"
+      ]
+    }
+  }
+  

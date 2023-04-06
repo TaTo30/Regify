@@ -4,17 +4,19 @@ import logging
 import getopt
 import config
 import os
+import proxy
+import logging.config
+import json
 
 from http_server import app
 
-logging.basicConfig(
-    level = logging.INFO,
-    format = "%(asctime)s %(levelname)s %(module)s %(message)s",
-    handlers= [
-        # logging.FileHandler("app.log"),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
+
+def config_main_logger():
+    try: 
+        with open(os.path.join(sys.path[0], "logging.json"), "rt") as lf:
+            logging.config.dictConfig(json.loads(lf.read()))
+    except:
+        print("logger couldn't be configured")
 
 if __name__ == "__main__":
     entry_args = sys.argv[1:] if os.path.exists(sys.argv[0]) else sys.argv
@@ -26,7 +28,10 @@ if __name__ == "__main__":
             config.proxy_mode = True
     
     if config.proxy_mode:
-        print("Modo executer")
+        command_id = [opt for opt in opts if opt[0] == '-e'][0][1]
+        item_path = args[0]
+        proxy.execute(command_id, item_path)
     else:
+        config_main_logger()
         regedit.bind_menu()
         app.run()

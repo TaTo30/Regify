@@ -27,7 +27,6 @@ class Command():
 
     @property
     def proxy_command(self):
-        logger.info(config.develop_mode)
         if config.develop_mode:
             return f"\"{sys.executable}\" \"{os.path.abspath(sys.argv[0])}\" \"-e\" \"{self.command_id}\" \"%1\""
         else:

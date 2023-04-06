@@ -27,7 +27,11 @@ class Command():
 
     @property
     def proxy_command(self):
-        return f"\"{sys.executable}\" \"-e\" \"{self.command_id}\" \"-i\" \"%1\""
+        logger.info(config.develop_mode)
+        if config.develop_mode:
+            return f"\"{sys.executable}\" \"{os.path.abspath(sys.argv[0])}\" \"-e\" \"{self.command_id}\" \"%1\""
+        else:
+            return f"\"{sys.executable}\" \"-e\" \"{self.command_id}\" \"%1\""
 
     def icon_path(self, icon):
         if not icon:

@@ -6,6 +6,9 @@ HOME_PATH = Path.joinpath(Path.home(), ".regify")
 SETTINGS_FILE = "settings.json"
 ICONS_FOLDER = "icons"
 
+develop_mode = False
+proxy_mode = False
+
 def _check_app_directory():
     if not Path.exists(HOME_PATH):
         Path.mkdir(HOME_PATH)

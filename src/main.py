@@ -10,17 +10,18 @@ import json
 
 from http_server import app
 
-
 def config_main_logger():
     try: 
-        with open(os.path.join(sys.path[0], "logging.json"), "rt") as lf:
+        with open(os.path.join(os.path.dirname(sys.executable), "logging.json"), "rt") as lf:
             logging.config.dictConfig(json.loads(lf.read()))
         logger = logging.getLogger(__name__)
         logger.info("Starting application")
-    except:
+    except Exception as e:
+        print(e)
         print("logger couldn't be configured")
 
 if __name__ == "__main__":
+    print(sys.executable)
     entry_args = sys.argv[1:] if os.path.exists(sys.argv[0]) else sys.argv
     opts, args = getopt.getopt(entry_args, "e:", ["dev"])
     for (var, value) in opts:
@@ -36,4 +37,4 @@ if __name__ == "__main__":
     else:
         config_main_logger()
         regedit.bind_menu()
-        app.run()
+        app.run(port=9776)

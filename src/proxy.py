@@ -2,7 +2,6 @@ import os
 import time
 import config
 import json
-import logging
 import subprocess
 
 def run_command(command):
@@ -25,7 +24,7 @@ def execute(command_id, item_path):
 
     if not os.path.exists(file_lock):
         with open(file_lock, "wt") as flock:
-            time.sleep(1)
+            time.sleep(3)
         
         with open(file_data, 'rt') as fdata, open(config.get_settings_path(), 'rt') as fsett:
             proxied_command = json.loads(fsett.read())['proxied_commands'][command_id]            

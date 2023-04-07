@@ -8,6 +8,10 @@ app = Flask(__name__)
 def _struct_response(status, msg, data = None):
     return Response(status=status, headers=[('Content-Type', 'application/json')], response=json.dumps({'msg': msg, 'data': data}))
 
+@app.route("/", methods=["GET"])
+def hello():
+    return _struct_response(200, "Hello :D")
+
 @app.route("/command", methods=["POST"])
 def add_command():
     json_body = request.json

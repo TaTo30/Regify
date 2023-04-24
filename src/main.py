@@ -7,13 +7,14 @@ import os
 import proxy
 import logging.config
 import json
+import ui
+import log_config
 
 from http_server import app
 
 def config_main_logger():
     try: 
-        with open(os.path.join(os.path.dirname(sys.executable), "logging.json"), "rt") as lf:
-            logging.config.dictConfig(json.loads(lf.read()))
+        logging.config.dictConfig(log_config.log_config())
         logger = logging.getLogger(__name__)
         logger.info("Starting application")
     except Exception as e:
@@ -37,4 +38,6 @@ if __name__ == "__main__":
     else:
         config_main_logger()
         regedit.bind_menu()
-        app.run(port=9776)
+        app = ui.UI()
+        app.mainloop()
+        # app.run(port=9776)

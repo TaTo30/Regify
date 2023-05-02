@@ -39,5 +39,6 @@ if __name__ == "__main__":
         config_main_logger()
         regedit.bind_menu()
         app = ui.UI()
+        app.title("Regify")
         app.mainloop()
         # app.run(port=9776)

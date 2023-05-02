@@ -16,12 +16,6 @@ data = [
     }
 ]
 
-
-ARROW_LEFT = customtkinter.CTkImage(Image.open("resources/arrow-left.png"))
-PLUSH_MATH = customtkinter.CTkImage(Image.open("resources/plus-math.png"))
-CLEAR = customtkinter.CTkImage(Image.open("resources/clear.png"))
-
-
 class CommandFrame(customtkinter.CTkScrollableFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -29,6 +23,7 @@ class CommandFrame(customtkinter.CTkScrollableFrame):
         self.master = master
 
     def add(self, item):
+        CLEAR = customtkinter.CTkImage(Image.open("resources/clear.png"))
         def delete_item():
             try:
                 cmd = command.Command(keyname=item["keyname"])
@@ -78,9 +73,10 @@ class CommandFrame(customtkinter.CTkScrollableFrame):
         
 class ListUI(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
+        PLUS_MATH = customtkinter.CTkImage(Image.open("resources/plus-math.png"))
         super().__init__(master, **kwargs)
 
-        self.create_button = customtkinter.CTkButton(self, text="AGREGAR COMANDO", image=PLUSH_MATH,
+        self.create_button = customtkinter.CTkButton(self, text="AGREGAR COMANDO", image=PLUS_MATH,
                                                      command=lambda: master.switch_to_create(),
                                                      fg_color="transparent", hover_color="#444446")
         self.create_button.grid(row=0, column=0, pady=5, padx=10, sticky="nsew")
@@ -99,6 +95,7 @@ class ListUI(customtkinter.CTkFrame):
 
 class CreateUI(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
+        ARROW_LEFT = customtkinter.CTkImage(Image.open("resources/arrow-left.png"))
         super().__init__(master, **kwargs)
 
         self.b64_icon = False

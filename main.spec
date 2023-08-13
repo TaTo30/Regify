@@ -37,6 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['favicon.png'],
 )
 
 exe_ui = EXE(
@@ -56,6 +57,7 @@ exe_ui = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['favicon.png'],
 )
 coll = COLLECT(
     exe,

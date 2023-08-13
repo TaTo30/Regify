@@ -19,11 +19,12 @@ DisableDirPage=yes
 DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
-OutputDir=C:\Users\Aldo_\Documents\Dev\Regify\setup
+OutputDir=C:\Users\Aldo_\Documents\Develop\Regify\setup
 OutputBaseFilename=Regify
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
+SetupIconFile=C:\Users\Aldo_\Documents\Develop\Regify\favicon.ico
 
 [Languages]
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
@@ -32,8 +33,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\Aldo_\Documents\Dev\Regify\dist\main\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Aldo_\Documents\Dev\Regify\dist\main\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Aldo_\Documents\Develop\Regify\dist\main\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Aldo_\Documents\Develop\Regify\dist\main\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

@@ -7,7 +7,7 @@ import subprocess
 def run_command(command):
     try:
         subprocess.run(command)
-    except Exception as e:
+    except:
         pass
     
 def execute(command_id, item_path):
@@ -37,5 +37,8 @@ def execute(command_id, item_path):
             command_to_execute = proxied_command['command'].replace("%FILES", file_list)
             run_command(command_to_execute)
 
-        os.unlink(file_data)
-        os.unlink(file_lock)
+        try:    
+            os.unlink(file_data)
+            os.unlink(file_lock)
+        except:
+            pass

@@ -53,7 +53,7 @@ def unbind_menu():
     _unbind_directory()
 
 def get_commands():
-    with winreg.OpenKey(_app_main_menu(), "shell") as menu_shell:
+    with winreg.CreateKey(_app_main_menu(), "shell") as menu_shell:
         try: 
             index = 0
             while True:
